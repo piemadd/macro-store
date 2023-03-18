@@ -1,0 +1,15 @@
+{
+  "name": "macro-store",
+  "version": "1.0.0",
+  "description": "Macro store is an API for storing and retrieving JSON content. It was designed to be the client-facing application for my trainsit API called macro, but can easily be repurposed for other uses. It uses NGINX to serve read requests and a simple Express.js server to handle write requests.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
