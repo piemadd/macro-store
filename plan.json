@@ -1,0 +1,29 @@
+{
+  "providers": [],
+  "buildImage": "ghcr.io/railwayapp/nixpacks:ubuntu-1673375667",
+  "variables": {
+    "PORT": "8080"
+  },
+  "phases": {
+    "build": {
+      "dependsOn": [
+        "install"
+      ],
+      "cmds": [
+        "cd src && npm install && mkdir -p /var/log/nginx && touch /var/log/nginx/error.log"
+      ]
+    },
+    "setup": {
+      "nixPkgs": [
+        "nodejs-18_x nginx"
+      ],
+      "nixLibs": [],
+      "nixOverlays": [],
+      "nixpkgsArchive": "293a28df6d7ff3dec1e61e37cc4ee6e6c0fb0847",
+      "aptPkgs": []
+    }
+  },
+  "start": {
+    "cmd": "node /app/src/replaceAuthToken.js && nginx -c /app/nginx/nginx.conf && node /app/src/index.js"
+  }
+}
