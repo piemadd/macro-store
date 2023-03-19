@@ -51,6 +51,9 @@ app.get('/api/update', (req, res) => {
 
   console.log('Update request received');
   if (req.headers['Auth-Token'] === process.env.TOKEN) {
+    //make sure the directory exists
+    fs.mkdirSync(path.dirname(absPath), { recursive: true });
+    //write the file
     fs.writeFileSync(absPath, JSON.stringify(fileBody));
   } else {
     console.log('someone is being naughty');
