@@ -22,8 +22,8 @@ app.put('/api/update', (req, res) => {
     return;
   };
 
-  if (!headers['Auth-Token']) {
-    res.send('No Auth-Token header set');
+  if (!headers['auth-token']) {
+    res.send('No auth-token header set');
     return;
   };
 
@@ -53,7 +53,7 @@ app.put('/api/update', (req, res) => {
   };
 
   console.log('Update request received');
-  if (req.headers['Auth-Token'] === process.env.TOKEN) {
+  if (req.headers['auth-token'] === process.env.TOKEN) {
     //make sure the directory exists
     fs.mkdirSync(path.dirname(absPath), { recursive: true });
     
