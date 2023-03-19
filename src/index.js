@@ -44,14 +44,6 @@ app.post('/api/update', jsonParser, (req, res) => {
   }
 
   const absPath = path.resolve(path.join('/app/macroStore/', req.query['path']));
-  let fileBody = {};
-
-  try {
-    fileBody = JSON.parse(req.body);
-  } catch (e) {
-    res.send('Body is not valid JSON');
-    return;
-  };
 
   if (!absPath.startsWith('/app/macroStore/')) {
     res.send('Path is not in macroStore');
@@ -64,22 +56,22 @@ app.post('/api/update', jsonParser, (req, res) => {
     fs.mkdirSync(path.dirname(absPath), { recursive: true });
     
     fs.mkdirSync(path.join(absPath, 'stations'), { recursive: true });
-    Object.values(fileBody.stations).forEach((station) => {
+    Object.values(body.stations).forEach((station) => {
       console.log(`Writing to ${path.join(absPath, `stations/${station.stationID}.json`)}`);
       fs.writeFileSync(path.join(absPath, `stations/${station.stationID}.json`), JSON.stringify(station));
     });
 
     fs.mkdirSync(path.join(absPath, 'vehicles'), { recursive: true });
-    Object.values(fileBody.vehicles).forEach((vehicle) => {
+    Object.values(body.vehicles).forEach((vehicle) => {
       console.log(`Writing to ${path.join(absPath, `vehicles/${vehicle.tripID}.json`)}`);
       fs.writeFileSync(path.join(absPath, `vehicles/${vehicle.tripID}.json`), JSON.stringify(vehicle));
     });
 
     fs.mkdirSync(path.join(absPath, 'all'), { recursive: true });
     console.log(`Writing to ${path.join(absPath, 'all/stations.json')}`);
-    fs.writeFileSync(path.join(absPath, 'all/stations.json'), JSON.stringify(stations));
+    fs.writeFileSync(path.join(absPath, 'all/stations.json'), JSON.stringify(body.stations));
     console.log(`Writing to ${path.join(absPath, 'all/vehicles.json')}`);
-    fs.writeFileSync(path.join(absPath, 'all/vehicles.json'), JSON.stringify(vehicles));
+    fs.writeFileSync(path.join(absPath, 'all/vehicles.json'), JSON.stringify(body.vehicles));
   } else {
     console.log('someone is being naughty');
   }
