@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 
-const jsonParser = bodyParser.json()
+const jsonParser = bodyParser.json({limit: '50mb'})
 
 console.log('current directory:', __dirname);
 
