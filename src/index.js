@@ -53,6 +53,7 @@ app.post('/api/update', jsonParser, (req, res) => {
   console.log('Update request received');
   if (req.headers['auth-token'] === process.env.TOKEN) {
     //make sure the directory exists
+    fs.existsSync(absPath) || fs.rmSync(absPath, { recursive: true });
     fs.mkdirSync(path.dirname(absPath), { recursive: true });
     
     fs.mkdirSync(path.join(absPath, 'stations'), { recursive: true });
@@ -67,11 +68,11 @@ app.post('/api/update', jsonParser, (req, res) => {
       fs.writeFileSync(path.join(absPath, `vehicles/${vehicle.tripID}.json`), JSON.stringify(vehicle));
     });
 
-    fs.mkdirSync(path.join(absPath, 'all'), { recursive: true });
-    console.log(`Writing to ${path.join(absPath, 'all/stations.json')}`);
-    fs.writeFileSync(path.join(absPath, 'all/stations.json'), JSON.stringify(body.stations));
-    console.log(`Writing to ${path.join(absPath, 'all/vehicles.json')}`);
-    fs.writeFileSync(path.join(absPath, 'all/vehicles.json'), JSON.stringify(body.vehicles));
+    fs.mkdirSync(path.join(absPath, 'keys'), { recursive: true });
+    console.log(`Writing to ${path.join(absPath, 'keys/stations.json')}`);
+    fs.writeFileSync(path.join(absPath, 'keys/stations.json'), JSON.stringify(Object.keys(body.stations)));
+    console.log(`Writing to ${path.join(absPath, 'keys/vehicles.json')}`);
+    fs.writeFileSync(path.join(absPath, 'keys/vehicles.json'), JSON.stringify(Object.keys(body.vehicles)));
   } else {
     console.log('someone is being naughty');
   }
