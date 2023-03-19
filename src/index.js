@@ -59,16 +59,20 @@ app.put('/api/update', (req, res) => {
     
     fs.mkdirSync(path.join(absPath, 'stations'), { recursive: true });
     Object.values(fileBody.stations).forEach((station) => {
+      console.log(`Writing to ${path.join(absPath, `stations/${station.stationID}.json`)}`);
       fs.writeFileSync(path.join(absPath, `stations/${station.stationID}.json`), JSON.stringify(station));
     });
 
     fs.mkdirSync(path.join(absPath, 'vehicles'), { recursive: true });
     Object.values(fileBody.vehicles).forEach((vehicle) => {
+      console.log(`Writing to ${path.join(absPath, `vehicles/${vehicle.tripID}.json`)}`);
       fs.writeFileSync(path.join(absPath, `vehicles/${vehicle.tripID}.json`), JSON.stringify(vehicle));
     });
 
     fs.mkdirSync(path.join(absPath, 'all'), { recursive: true });
+    console.log(`Writing to ${path.join(absPath, 'all/stations.json')}`);
     fs.writeFileSync(path.join(absPath, 'all/stations.json'), JSON.stringify(stations));
+    console.log(`Writing to ${path.join(absPath, 'all/vehicles.json')}`);
     fs.writeFileSync(path.join(absPath, 'all/vehicles.json'), JSON.stringify(vehicles));
   } else {
     console.log('someone is being naughty');
