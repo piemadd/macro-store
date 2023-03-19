@@ -50,7 +50,7 @@ app.post('/api/update', jsonParser, (req, res) => {
   console.log('Update request received');
   if (req.headers['auth-token'] === process.env.TOKEN) {
     //make sure the directory exists
-    fs.existsSync(absPath) || fs.rmSync(absPath, { recursive: true });
+    fs.existsSync(absPath) && fs.rmSync(absPath, { recursive: true });
     fs.mkdirSync(path.dirname(absPath), { recursive: true });
     
     fs.mkdirSync(path.join(absPath, 'stations'), { recursive: true });
