@@ -13,7 +13,7 @@ fs.writeFileSync('/app/macroStore/v0/test.json', '{"key": "value"}');
 fs.mkdirSync('/app/macroStore/api', { recursive: true });
 fs.writeFileSync('/app/macroStore/api/update', '');
 
-app.get('/api/update', (req, res) => {
+app.put('/api/update', (req, res) => {
   if (!process.env.TOKEN) {
     res.send('No token set in environment variable TOKEN');
     return;
