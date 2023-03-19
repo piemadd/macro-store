@@ -1,8 +1,11 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
+
+const jsonParser = bodyParser.json()
 
 console.log('current directory:', __dirname);
 
@@ -13,7 +16,7 @@ fs.writeFileSync('/app/macroStore/v0/test.json', '{"key": "value"}');
 fs.mkdirSync('/app/macroStore/api', { recursive: true });
 fs.writeFileSync('/app/macroStore/api/update', '');
 
-app.post('/api/update', (req, res) => {
+app.post('/api/update', jsonParser, (req, res) => {
   const headers = req.headers;
   const body = req.body;
 
