@@ -14,12 +14,15 @@ fs.mkdirSync('/app/macroStore/api', { recursive: true });
 fs.writeFileSync('/app/macroStore/api/update', '');
 
 app.put('/api/update', (req, res) => {
+  const headers = req.headers;
+  console.log('Headers', headers);
+
   if (!process.env.TOKEN) {
     res.send('No token set in environment variable TOKEN');
     return;
   };
 
-  if (!req.headers['Auth-Token']) {
+  if (!headers['Auth-Token']) {
     res.send('No Auth-Token header set');
     return;
   };
