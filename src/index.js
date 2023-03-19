@@ -15,7 +15,10 @@ fs.writeFileSync('/app/macroStore/api/update', '');
 
 app.post('/api/update', (req, res) => {
   const headers = req.headers;
+  const body = req.body;
+
   console.log('Headers', headers);
+  console.log('Body', body);
 
   if (!process.env.TOKEN) {
     res.send('No token set in environment variable TOKEN');
