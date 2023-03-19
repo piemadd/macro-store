@@ -13,7 +13,7 @@ fs.writeFileSync('/app/macroStore/v0/test.json', '{"key": "value"}');
 fs.mkdirSync('/app/macroStore/api', { recursive: true });
 fs.writeFileSync('/app/macroStore/api/update', '');
 
-app.put('/api/update', (req, res) => {
+app.post('/api/update', (req, res) => {
   const headers = req.headers;
   console.log('Headers', headers);
 
