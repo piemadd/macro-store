@@ -70,6 +70,18 @@ app.post('/api/update', jsonParser, (req, res) => {
     fs.writeFileSync(path.join(absPath, 'keys/stations.json'), JSON.stringify(Object.keys(body.stations)));
     console.log(`Writing to ${path.join(absPath, 'keys/vehicles.json')}`);
     fs.writeFileSync(path.join(absPath, 'keys/vehicles.json'), JSON.stringify(Object.keys(body.vehicles)));
+
+    //check if /app/macroStore/agencies.json exists and if not create it, otherwise append to it
+    if (!fs.existsSync('/app/macroStore/agencies.json')) {
+      fs.writeFileSync('/app/macroStore/agencies.json', JSON.stringify([]));
+    }
+    const agencies = JSON.parse(fs.readFileSync('/app/macroStore/agencies.json'));
+    if (!agencies.includes(req.query['path'])) {
+      agencies.push(req.query['path']);
+      fs.writeFileSync('/app/macroStore/agencies.json', JSON.stringify(agencies));
+    };
+
+    console.log('Update successful');
   } else {
     console.log('someone is being naughty');
   }
