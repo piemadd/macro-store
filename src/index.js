@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 
-const jsonParser = bodyParser.json({limit: '50mb'})
+const jsonParser = bodyParser.json({ limit: '50mb' })
 
 console.log('current directory:', __dirname);
 
@@ -50,22 +50,23 @@ app.post('/api/update', jsonParser, (req, res) => {
   console.log('Update request received');
   if (req.headers['auth-token'] === process.env.TOKEN) {
     //make sure the directory exists
-    fs.existsSync(absPath) && fs.rmSync(absPath, { recursive: true });
-    fs.mkdirSync(path.dirname(absPath), { recursive: true });
-    
-    fs.mkdirSync(path.join(absPath, 'stations'), { recursive: true });
+    !fs.existsSync(absPath) && fs.mkdirSync(path.dirname(absPath), { recursive: true });
+
+    !fs.existsSync(path.join(absPath, 'stations')) && fs.mkdirSync(path.join(absPath, 'stations'), { recursive: true });
     Object.values(body.stations).forEach((station) => {
-      console.log(`Writing to ${path.join(absPath, `stations/${station.stationID}.json`)}`);
+      //console.log(`Writing to ${path.join(absPath, `stations/${station.stationID}.json`)}`);
       fs.writeFileSync(path.join(absPath, `stations/${station.stationID}.json`), JSON.stringify(station));
     });
 
-    fs.mkdirSync(path.join(absPath, 'vehicles'), { recursive: true });
+    !fs.existsSync(path.join(absPath, 'vehicles')) && fs.mkdirSync(path.join(absPath, 'vehicles'), { recursive: true });
+    console.log('writing vehicles')
+    console.log(body.vehicles)
     Object.values(body.vehicles).forEach((vehicle) => {
       console.log(`Writing to ${path.join(absPath, `vehicles/${vehicle.tripID}.json`)}`);
       fs.writeFileSync(path.join(absPath, `vehicles/${vehicle.tripID}.json`), JSON.stringify(vehicle));
     });
 
-    fs.mkdirSync(path.join(absPath, 'keys'), { recursive: true });
+    !fs.existsSync(path.join(absPath, 'keys')) && fs.mkdirSync(path.join(absPath, 'keys'), { recursive: true });
     console.log(`Writing to ${path.join(absPath, 'keys/stations.json')}`);
     fs.writeFileSync(path.join(absPath, 'keys/stations.json'), JSON.stringify(Object.keys(body.stations)));
     console.log(`Writing to ${path.join(absPath, 'keys/vehicles.json')}`);
