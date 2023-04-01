@@ -53,14 +53,14 @@ app.post('/api/update', jsonParser, (req, res) => {
     !fs.existsSync(absPath) && fs.mkdirSync(path.dirname(absPath), { recursive: true });
 
     !fs.existsSync(path.join(absPath, 'stations')) && fs.mkdirSync(path.join(absPath, 'stations'), { recursive: true });
+    console.log('Writing stations')
     Object.values(body.stations).forEach((station) => {
-      //console.log(`Writing to ${path.join(absPath, `stations/${station.stationID}.json`)}`);
+      console.log(`Writing to ${path.join(absPath, `stations/${station.stationID}.json`)}`);
       fs.writeFileSync(path.join(absPath, `stations/${station.stationID}.json`), JSON.stringify(station));
     });
 
     !fs.existsSync(path.join(absPath, 'vehicles')) && fs.mkdirSync(path.join(absPath, 'vehicles'), { recursive: true });
-    console.log('writing vehicles')
-    console.log(body.vehicles)
+    console.log('Writing vehicles')
     Object.values(body.vehicles).forEach((vehicle) => {
       console.log(`Writing to ${path.join(absPath, `vehicles/${vehicle.tripID}.json`)}`);
       fs.writeFileSync(path.join(absPath, `vehicles/${vehicle.tripID}.json`), JSON.stringify(vehicle));
