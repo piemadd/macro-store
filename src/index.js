@@ -52,6 +52,8 @@ app.post('/api/update', jsonParser, (req, res) => {
     //make sure the directory exists
     !fs.existsSync(absPath) && fs.mkdirSync(path.dirname(absPath), { recursive: true });
 
+    console.log(body)
+
     !fs.existsSync(path.join(absPath, 'stations')) && fs.mkdirSync(path.join(absPath, 'stations'), { recursive: true });
     console.log('Writing stations')
     Object.values(body.stations).forEach((station) => {
