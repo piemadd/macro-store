@@ -72,6 +72,13 @@ app.post('/api/update', jsonParser, (req, res) => {
       fs.writeFileSync(path.join(absPath, `vehicles/${vehicle.tripID}.json`), JSON.stringify(vehicle));
     });
 
+    fs.readdirSync(path.join(absPath, 'vehicles')).forEach((file) => {
+      if (!Object.keys(body.vehicles).includes(file.replace('.json', ''))) {
+        console.log(`Deleting ${path.join(absPath, `vehicles/${file}`)}`);
+        fs.rmSync(path.join(absPath, `vehicles/${file}`));
+      }
+    });
+
     !fs.existsSync(path.join(absPath, 'keys')) && fs.mkdirSync(path.join(absPath, 'keys'), { recursive: true });
     console.log(`Writing to ${path.join(absPath, 'keys/stations.json')}`);
     fs.writeFileSync(path.join(absPath, 'keys/stations.json'), JSON.stringify(Object.keys(body.stations)));
